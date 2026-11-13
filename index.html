@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>نُزل الصفصاف</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Reem+Kufi:wght@500;600;700&display=swap">
+<style>
+/* Layout: calm lakeside scene on top, booking bar overlapping it, then rooms list beside a sticky booking summary. */
+:root{
+  --bg:#ECF0EB; --surface:#F7F9F5; --sunken:#E1E7E0;
+  --ink:#25322C; --muted:#5C6B63; --line:#CBD5CC;
+  --accent:#3B6657; --accent-ink:#F4F8F4; --accent-soft:#D5E3DB;
+  --brass:#8A6A2F; --danger:#9A3F35;
+  --sky:#D6E4E1; --sun:#EAD9A8; --hill1:#B4C9BF; --hill2:#8FAE9F; --hill3:#5F8573; --water:#A9C5C6; --tree:#3F6454; --wall:#E1E7E0;
+  --display:"Reem Kufi","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --body:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#161C19; --surface:#1E2622; --sunken:#121715;
+    --ink:#DCE4DD; --muted:#98A79E; --line:#34413A;
+    --accent:#8DBBA6; --accent-ink:#13201A; --accent-soft:#263A31;
+    --brass:#D0B07A; --danger:#E39A8F;
+    --sky:#1D2B30; --sun:#D9D3B8; --hill1:#2A3D3A; --hill2:#243631; --hill3:#1C2B26; --water:#22363C; --tree:#14211C; --wall:#121715;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#161C19; --surface:#1E2622; --sunken:#121715;
+  --ink:#DCE4DD; --muted:#98A79E; --line:#34413A;
+  --accent:#8DBBA6; --accent-ink:#13201A; --accent-soft:#263A31;
+  --brass:#D0B07A; --danger:#E39A8F;
+  --sky:#1D2B30; --sun:#D9D3B8; --hill1:#2A3D3A; --hill2:#243631; --hill3:#1C2B26; --water:#22363C; --tree:#14211C; --wall:#121715;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.8}
+.wrap{max-width:1120px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.35;margin:0;text-wrap:balance}
+p{margin:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* scene fills */
+.s-sky{fill:var(--sky)}.s-sun{fill:var(--sun)}.s-hill1{fill:var(--hill1)}.s-hill2{fill:var(--hill2)}.s-hill3{fill:var(--hill3)}
+.s-water{fill:var(--water)}.s-tree{fill:var(--tree)}.s-wall{fill:var(--wall)}.s-house{fill:var(--surface)}
+.s-frame{fill:none;stroke:var(--line);stroke-width:2}
+.s-ripple{fill:none;stroke:var(--sky);stroke-width:2;stroke-linecap:round;opacity:.7}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:18px}
+.brand{font-family:var(--display);font-size:1.35rem;font-weight:700;color:var(--ink)}
+.brand small{display:block;font-family:var(--body);font-weight:400;font-size:.8rem;color:var(--muted);line-height:1.4}
+.nav{display:flex;gap:22px;flex-wrap:wrap}
+.nav a{color:var(--muted);text-decoration:none;font-size:.95rem}
+.nav a:hover{color:var(--accent)}
+
+/* hero */
+.hero{position:relative;border-radius:22px;overflow:hidden;background:var(--sky)}
+.hero svg{display:block;width:100%;height:clamp(240px,34vw,380px)}
+.hero-text{position:absolute;inset-block-start:0;inset-inline-start:0;padding:clamp(20px,4vw,44px);max-width:560px}
+.hero-text h1{font-size:clamp(1.7rem,4.2vw,2.9rem);color:var(--ink)}
+.hero-text p{color:var(--muted);margin-top:10px;max-width:38ch;font-size:clamp(.95rem,1.6vw,1.05rem)}
+
+/* search bar */
+.search{position:relative;margin:-34px clamp(0px,3vw,36px) 0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:14px;align-items:end}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field label{font-size:.82rem;color:var(--muted)}
+.field input,.field select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:100%;min-height:46px}
+.nights{font-family:var(--display);font-size:1.05rem;color:var(--accent);background:var(--accent-soft);border-radius:10px;padding:8px 18px;min-height:46px;display:flex;align-items:center;justify-content:center;white-space:nowrap}
+
+/* main */
+.main{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:32px;align-items:start;padding-block:48px 24px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.sec-head h2{font-size:1.5rem}
+.sec-head p{color:var(--muted);font-size:.9rem}
+.rooms{display:flex;flex-direction:column;gap:14px}
+.room{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:18px;align-items:center;background:var(--surface);border:1.5px solid transparent;border-radius:var(--r);padding:12px;cursor:pointer;transition:border-color .15s}
+.room:hover{border-color:var(--line)}
+.room input{position:absolute;opacity:0;pointer-events:none}
+.room:has(input:checked){border-color:var(--accent)}
+.room:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.room.off{opacity:.5;cursor:not-allowed}
+.room svg{display:block;width:100%;border-radius:10px}
+.room h3{font-size:1.15rem}
+.room .desc{color:var(--muted);font-size:.92rem;margin-top:2px}
+.tags{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:.84rem;color:var(--muted);padding:0;list-style:none}
+.tags li::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--hill2);margin-inline-end:7px;vertical-align:middle}
+.price{text-align:end;display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.price b{font-family:var(--display);font-size:1.25rem;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.price span{font-size:.8rem;color:var(--muted)}
+.pick{font-size:.85rem;border:1px solid var(--line);border-radius:999px;padding:3px 16px;color:var(--ink)}
+.room:has(input:checked) .pick{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.warn{color:var(--brass);font-size:.84rem}
+
+/* summary */
+.summary{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;display:flex;flex-direction:column;gap:16px}
+.summary h2{font-size:1.25rem}
+.rows{display:flex;flex-direction:column;gap:6px;font-size:.93rem;margin:0}
+.rows div{display:flex;justify-content:space-between;gap:12px}
+.rows dt{color:var(--muted)}
+.rows dd{margin:0;text-align:end;font-variant-numeric:tabular-nums}
+.total{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line);padding-top:14px}
+.total b{font-family:var(--display);font-size:1.5rem;font-weight:600;font-variant-numeric:tabular-nums}
+.form{display:flex;flex-direction:column;gap:12px}
+.err{color:var(--danger);font-size:.84rem;min-height:0}
+.btn{font:inherit;font-family:var(--display);font-size:1.05rem;font-weight:600;background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;padding:12px;cursor:pointer;min-height:48px}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--line)}
+.fine{font-size:.8rem;color:var(--muted);line-height:1.6}
+.done h2{color:var(--accent)}
+.ref{font-family:ui-monospace,Consolas,monospace;font-size:1.2rem;letter-spacing:.08em;background:var(--sunken);border-radius:8px;padding:8px 12px;text-align:center;direction:ltr;user-select:all}
+
+/* info */
+.info{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px;padding-block:32px 48px;border-top:1px solid var(--line)}
+.info h2{font-size:1.3rem;margin-bottom:12px}
+.info dl{margin:0;display:flex;flex-direction:column;gap:10px}
+.info dl div{display:grid;grid-template-columns:130px minmax(0,1fr);gap:12px}
+.info dt{font-weight:600}
+.info dd{margin:0;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding-block:20px 32px;color:var(--muted);font-size:.85rem;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer span[dir="ltr"]{user-select:all}
+
+@media (max-width:900px){
+  .main{grid-template-columns:minmax(0,1fr)}
+  .summary{position:static}
+  .info{grid-template-columns:minmax(0,1fr);gap:28px}
+}
+@media (max-width:640px){
+  .search{grid-template-columns:repeat(2,minmax(0,1fr));margin-inline:0}
+  .search .nights{grid-column:1/-1}
+  .hero-text{position:static;background:var(--surface);max-width:none}
+  .hero{background:var(--surface)}
+  .hero svg{height:180px}
+  .search{margin-top:14px}
+  .room{grid-template-columns:96px minmax(0,1fr)}
+  .price{grid-column:1/-1;flex-direction:row;justify-content:space-between;align-items:center;text-align:start}
+  .info dl div{grid-template-columns:minmax(0,1fr);gap:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap" dir="rtl" lang="ar">
+  <header class="top">
+    <div class="brand">نُزل الصفصاف<small>بحيرة دوكان، السليمانية</small></div>
+    <nav class="nav" aria-label="أقسام الصفحة">
+      <a href="#rooms">الغرف</a>
+      <a href="#services">الخدمات</a>
+      <a href="#policy">مواعيد وسياسات</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <svg viewBox="0 0 1200 380" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <rect class="s-sky" width="1200" height="380"/>
+      <circle class="s-sun" cx="250" cy="120" r="46"/>
+      <path class="s-hill1" d="M0 230 Q160 130 340 200 T700 170 T1200 210 V380 H0Z"/>
+      <path class="s-hill2" d="M0 265 Q200 190 420 245 T860 225 T1200 250 V380 H0Z"/>
+      <rect class="s-water" y="290" width="1200" height="90"/>
+      <path class="s-ripple" d="M120 318h90M300 340h140M560 322h70M40 356h110M470 362h80"/>
+      <path class="s-hill3" d="M560 300 Q800 215 1010 250 T1200 240 V380 H700 Q620 330 560 300Z"/>
+      <g>
+        <rect class="s-house" x="880" y="212" width="170" height="70" rx="3"/>
+        <path class="s-house" d="M868 214 L965 176 L1062 214Z"/>
+        <path class="s-hill2" d="M905 282v-34a12 12 0 0 1 24 0v34ZM953 282v-34a12 12 0 0 1 24 0v34ZM1001 282v-34a12 12 0 0 1 24 0v34Z"/>
+      </g>
+      <ellipse class="s-tree" cx="842" cy="236" rx="15" ry="48"/>
+      <ellipse class="s-tree" cx="1088" cy="230" rx="17" ry="56"/>
+      <ellipse class="s-tree" cx="1120" cy="250" rx="12" ry="38"/>
+    </svg>
+    <div class="hero-text">
+      <h1>هدوء البحيرة يبدأ من نافذتك</h1>
+      <p>أربعة عشر غرفة وجناحاً على ضفة دوكان، مع إفطار كردي كل صباح.</p>
+    </div>
+  </section>
+
+  <form class="search" id="search" aria-label="تفاصيل الإقامة">
+    <div class="field"><label for="in">تاريخ الوصول</label><input type="date" id="in" required></div>
+    <div class="field"><label for="out">تاريخ المغادرة</label><input type="date" id="out" required></div>
+    <div class="field"><label for="guests">عدد الضيوف</label>
+      <select id="guests"><option value="1">ضيف واحد</option><option value="2" selected>ضيفان</option><option value="3">3 ضيوف</option><option value="4">4 ضيوف</option></select>
+    </div>
+    <div class="nights" id="nights" aria-live="polite"></div>
+  </form>
+
+  <div class="main">
+    <section id="rooms" aria-labelledby="rooms-h">
+      <div class="sec-head"><h2 id="rooms-h">اختر غرفتك</h2><p>السعر لليلة الواحدة ويشمل الإفطار</p></div>
+      <div class="rooms" id="roomList" role="radiogroup" aria-labelledby="rooms-h"></div>
+    </section>
+
+    <aside class="summary" id="summary" aria-live="polite"></aside>
+  </div>
+
+  <section class="info">
+    <div id="services">
+      <h2>الخدمات</h2>
+      <dl>
+        <div><dt>الإفطار</dt><dd>من 7:00 إلى 10:30 صباحاً في الشرفة المطلة على البحيرة.</dd></div>
+        <div><dt>الإنترنت</dt><dd>واي فاي مجاني في كل الغرف والمساحات المشتركة.</dd></div>
+        <div><dt>موقف السيارات</dt><dd>مجاني ومظلل داخل سور النُزل.</dd></div>
+        <div><dt>القوارب</dt><dd>جولة في البحيرة عند الغروب، تُحجز من الاستقبال.</dd></div>
+        <div><dt>النقل</dt><dd>توصيل من مطار السليمانية بطلب مسبق، نحو 75 دقيقة.</dd></div>
+      </dl>
+    </div>
+    <div id="policy">
+      <h2>مواعيد وسياسات</h2>
+      <dl>
+        <div><dt>الوصول</dt><dd>من الساعة 2:00 ظهراً.</dd></div>
+        <div><dt>المغادرة</dt><dd>حتى الساعة 12:00 ظهراً.</dd></div>
+        <div><dt>الإلغاء</dt><dd>مجاني حتى 48 ساعة قبل موعد الوصول، وبعدها تُحتسب ليلة واحدة.</dd></div>
+        <div><dt>الدفع</dt><dd>نقداً أو بالبطاقة عند الوصول، بالدينار العراقي.</dd></div>
+        <div><dt>الأطفال</dt><dd>مجاناً دون سن السادسة على السرير نفسه.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <footer>
+    <span>نُزل الصفصاف، طريق البحيرة، دوكان</span>
+    <span>نموذج تصميمي: الفندق والأسعار أمثلة، والحجز لا يُرسل إلى أي جهة.</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  document.documentElement.lang='ar'; document.documentElement.dir='rtl';
+  var $=function(id){return document.getElementById(id)};
+  var ROOMS=[
+    {id:'garden',name:'غرفة الحديقة',desc:'هادئة في الطابق الأرضي، تفتح على حديقة الصفصاف.',cap:2,size:28,bed:'سرير مزدوج',price:85000,scene:'garden'},
+    {id:'lake',name:'غرفة البحيرة',desc:'نافذة واسعة على الماء والجبال من الطابق الثاني.',cap:2,size:34,bed:'سرير كبير',price:120000,scene:'lake'},
+    {id:'family',name:'الجناح العائلي',desc:'غرفتان متصلتان وصالة جلوس صغيرة.',cap:4,size:52,bed:'سرير كبير وسريران مفردان',price:175000,scene:'hills'},
+    {id:'terrace',name:'جناح الشرفة',desc:'شرفة خاصة في الطابق العلوي لمشاهدة الغروب.',cap:3,size:64,bed:'سرير كبير وأريكة سرير',price:230000,scene:'sunset'}
+  ];
+  var SCENES={
+    garden:'<rect class="s-sky" width="160" height="120"/><path class="s-hill1" d="M0 78Q40 58 80 74T160 66V120H0Z"/><path class="s-hill3" d="M0 98Q50 82 100 96T160 92V120H0Z"/><ellipse class="s-tree" cx="62" cy="80" rx="7" ry="22"/><ellipse class="s-tree" cx="98" cy="86" rx="6" ry="17"/>',
+    lake:'<rect class="s-sky" width="160" height="120"/><path class="s-hill1" d="M0 70Q50 44 90 64T160 56V120H0Z"/><rect class="s-water" y="80" width="160" height="40"/><path class="s-ripple" d="M52 92h22M84 104h26"/>',
+    hills:'<rect class="s-sky" width="160" height="120"/><circle class="s-sun" cx="98" cy="44" r="9"/><path class="s-hill1" d="M0 72Q40 48 80 68T160 58V120H0Z"/><path class="s-hill2" d="M0 88Q50 66 96 86T160 80V120H0Z"/><path class="s-hill3" d="M0 104Q60 90 110 102T160 100V120H0Z"/>',
+    sunset:'<rect class="s-sky" width="160" height="120"/><circle class="s-sun" cx="80" cy="78" r="18"/><rect class="s-water" y="80" width="160" height="40"/><path class="s-hill2" d="M0 80Q30 62 58 80Z M104 80Q136 58 160 80Z"/><path class="s-ripple" d="M66 92h28M72 102h16"/>'
+  };
+  function art(r,i){
+    return '<svg viewBox="0 0 160 120" aria-hidden="true"><rect class="s-wall" width="160" height="120"/><clipPath id="arch'+i+'"><path d="M42 120V60a38 38 0 0 1 76 0v60Z"/></clipPath><g clip-path="url(#arch'+i+')">'+SCENES[r.scene]+'</g><path class="s-frame" d="M42 120V60a38 38 0 0 1 76 0v60M80 22v98"/></svg>';
+  }
+  var money=function(n){return n.toLocaleString('en-US')+' د.ع'};
+  var pad=function(n){return String(n).padStart(2,'0')};
+  var iso=function(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())};
+  var parse=function(s){var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2])};
+  var addDays=function(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x};
+  var fmt;try{fmt=new Intl.DateTimeFormat('ar-IQ-u-nu-latn',{weekday:'long',day:'numeric',month:'long'})}catch(e){fmt={format:iso}}
+  function nightsWord(n){return n===1?'ليلة واحدة':n===2?'ليلتان':n<=10?n+' ليالٍ':n+' ليلة'}
+  function guestsWord(n){return n===1?'ضيف واحد':n===2?'ضيفان':n+' ضيوف'}
+
+  var today=new Date();today.setHours(0,0,0,0);
+  var state={room:null,done:null,name:'',phone:'',err:''};
+  $('in').min=iso(today);
+  $('in').value=iso(addDays(today,7));
+  $('out').value=iso(addDays(today,9));
+
+  function stay(){
+    var a=parse($('in').value||iso(today)),b=parse($('out').value||iso(addDays(a,1)));
+    if(a<today){a=today;$('in').value=iso(a)}
+    if(b<=a){b=addDays(a,1);$('out').value=iso(b)}
+    $('out').min=iso(addDays(a,1));
+    return {a:a,b:b,n:Math.round((b-a)/864e5),g:+$('guests').value};
+  }
+
+  function renderRooms(){
+    var s=stay();
+    $('nights').textContent=nightsWord(s.n);
+    if(state.room&&ROOMS.find(function(r){return r.id===state.room}).cap<s.g)state.room=null;
+    $('roomList').innerHTML=ROOMS.map(function(r,i){
+      var off=r.cap<s.g;
+      return '<label class="room'+(off?' off':'')+'">'+
+        '<input type="radio" name="room" id="room-'+r.id+'" value="'+r.id+'"'+(state.room===r.id?' checked':'')+(off?' disabled':'')+'>'+
+        art(r,i)+
+        '<div><h3>'+r.name+'</h3><p class="desc">'+r.desc+'</p>'+
+        '<ul class="tags"><li>'+r.size+' م²</li><li>'+r.bed+'</li><li>حتى '+guestsWord(r.cap)+'</li></ul></div>'+
+        '<div class="price"><div><b>'+money(r.price)+'</b><br><span>لليلة</span></div>'+
+        (off?'<span class="warn">لا تتسع لـ '+guestsWord(s.g)+'</span>':'<span class="pick">'+(state.room===r.id?'تم الاختيار':'اختيار')+'</span>')+'</div>'+
+      '</label>';
+    }).join('');
+  }
+
+  function renderSummary(){
+    var s=stay(),el=$('summary');
+    if(state.done){
+      var d=state.done;
+      el.className='summary done';
+      el.innerHTML='<h2>تم تسجيل حجزك</h2>'+
+        '<p>أهلاً بك يا '+esc(d.name)+'. احتفظ برقم الحجز لإبرازه عند الوصول.</p>'+
+        '<div class="ref" id="ref">'+d.ref+'</div>'+
+        '<dl class="rows"><div><dt>الغرفة</dt><dd>'+d.room+'</dd></div><div><dt>الوصول</dt><dd>'+d.a+'</dd></div><div><dt>المغادرة</dt><dd>'+d.b+'</dd></div><div><dt>المدة</dt><dd>'+d.n+'، '+d.g+'</dd></div></dl>'+
+        '<div class="total"><span>المبلغ عند الوصول</span><b>'+d.total+'</b></div>'+
+        '<button type="button" class="btn ghost" id="again">حجز جديد</button>'+
+        '<p class="fine">هذا نموذج تصميمي، فلم يُرسل الحجز إلى أي جهة.</p>';
+      return;
+    }
+    el.className='summary';
+    var r=ROOMS.find(function(x){return x.id===state.room});
+    var head='<h2>ملخص الحجز</h2><dl class="rows"><div><dt>الوصول</dt><dd>'+fmt.format(s.a)+'</dd></div><div><dt>المغادرة</dt><dd>'+fmt.format(s.b)+'</dd></div><div><dt>الضيوف</dt><dd>'+guestsWord(s.g)+'</dd></div></dl>';
+    if(!r){el.innerHTML=head+'<p class="fine" style="font-size:.93rem">اختر غرفة من القائمة ليظهر السعر الإجمالي.</p>';return}
+    var sub=r.price*s.n,fee=Math.round(sub*0.1);
+    el.innerHTML=head+
+      '<dl class="rows"><div><dt>'+r.name+' × '+nightsWord(s.n)+'</dt><dd>'+money(sub)+'</dd></div><div><dt>رسوم الخدمة 10%</dt><dd>'+money(fee)+'</dd></div></dl>'+
+      '<div class="total"><span>الإجمالي</span><b>'+money(sub+fee)+'</b></div>'+
+      '<form class="form" id="book" novalidate>'+
+        '<div class="field"><label for="name">الاسم الكامل</label><input id="name" autocomplete="name" value="'+esc(state.name)+'"></div>'+
+        '<div class="field"><label for="phone">رقم الهاتف</label><input id="phone" inputmode="tel" dir="ltr" placeholder="07xxxxxxxxx" autocomplete="tel" value="'+esc(state.phone)+'"></div>'+
+        '<p class="err" id="err" role="alert">'+state.err+'</p>'+
+        '<button class="btn" type="submit">تأكيد الحجز</button>'+
+        '<p class="fine">لا دفع الآن. الإلغاء مجاني حتى 48 ساعة قبل الوصول.</p>'+
+      '</form>';
+  }
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function keep(){var n=$('name'),p=$('phone');if(n)state.name=n.value;if(p)state.phone=p.value}
+  function render(){keep();renderRooms();renderSummary()}
+
+  $('search').addEventListener('change',function(){state.err='';render()});
+  $('search').addEventListener('submit',function(e){e.preventDefault()});
+  $('roomList').addEventListener('change',function(e){state.room=e.target.value;state.err='';render();var i=$('room-'+state.room);if(i)i.focus()});
+  $('summary').addEventListener('submit',function(e){
+    e.preventDefault();keep();
+    var name=state.name.trim(),phone=state.phone.replace(/[\s-]/g,'');
+    if(name.length<3){state.err='اكتب اسمك الكامل.';renderSummary();$('name').focus();return}
+    if(!/^07[3-9]\d{8}$/.test(phone)){state.err='رقم الهاتف يجب أن يكون 11 رقماً ويبدأ بـ 07، مثل 07701234567.';renderSummary();$('phone').focus();return}
+    var s=stay(),r=ROOMS.find(function(x){return x.id===state.room}),sub=r.price*s.n;
+    state.done={name:name,ref:'SF-'+Math.random().toString(36).slice(2,7).toUpperCase(),room:r.name,a:fmt.format(s.a),b:fmt.format(s.b),n:nightsWord(s.n),g:guestsWord(s.g),total:money(sub+Math.round(sub*0.1))};
+    state.err='';renderSummary();
+  });
+  $('summary').addEventListener('click',function(e){
+    if(e.target.id==='again'){state.done=null;state.room=null;state.name='';state.phone='';render()}
+  });
+  render();
+})();
+</script>
